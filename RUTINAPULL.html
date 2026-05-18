@@ -1,0 +1,390 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.container { padding: 1rem 0; max-width: 680px; }
+.day-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.tab-btn { padding: 8px 14px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-secondary); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.15s; }
+.tab-btn.ap { background: #FCEBEB; color: #A32D2D; border-color: #E24B4A; }
+.tab-btn.al { background: #E6F1FB; color: #185FA5; border-color: #378ADD; }
+.tab-btn.ag { background: #EAF3DE; color: #3B6D11; border-color: #639922; }
+.tab-btn.ar { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.day-badge { padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+.bp { background: #FCEBEB; color: #A32D2D; }
+.bl { background: #E6F1FB; color: #185FA5; }
+.bg { background: #EAF3DE; color: #3B6D11; }
+.br { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.section-title { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+.order-banner { background: #EEEDFE; border: 0.5px solid #AFA9EC; border-radius: var(--border-radius-md); padding: 10px 14px; margin-bottom: 1rem; font-size: 12px; color: #3C3489; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+.cardio-notice { display: flex; align-items: flex-start; gap: 8px; padding: 10px 14px; border-radius: var(--border-radius-md); background: #FAEEDA; border: 0.5px solid #EF9F27; margin-bottom: 1rem; font-size: 12px; color: #854F0B; line-height: 1.5; }
+.alt-notice { display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border-radius: var(--border-radius-md); background: #E1F5EE; border: 0.5px solid #5DCAA5; margin-bottom: 1rem; font-size: 12px; color: #085041; line-height: 1.5; }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 8px; margin-bottom: 1.25rem; }
+.info-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.65rem 0.9rem; }
+.info-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 3px; }
+.info-val { font-size: 12px; font-weight: 500; color: var(--color-text-primary); line-height: 1.4; }
+.warmup-box { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 0.85rem 1rem; margin-bottom: 1.25rem; }
+.block-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 7px; display: flex; align-items: center; gap: 5px; }
+.warmup-items { display: flex; flex-wrap: wrap; gap: 5px; }
+.warmup-chip { padding: 3px 9px; border-radius: 20px; background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); font-size: 11px; color: var(--color-text-secondary); }
+.muscle-group { margin-bottom: 1.2rem; }
+.muscle-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-text-tertiary); margin-bottom: 7px; display: flex; align-items: center; gap: 6px; }
+.muscle-label::after { content: ''; flex: 1; border-top: 0.5px solid var(--color-border-tertiary); }
+.exercise-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 0.8rem 0.95rem; margin-bottom: 7px; display: flex; align-items: flex-start; gap: 10px; transition: border-color 0.15s; }
+.exercise-card:hover { border-color: var(--color-border-secondary); }
+.exercise-card.alt-card { border-color: #5DCAA5; background: #E1F5EE; }
+.ex-num { min-width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; background: var(--color-background-secondary); color: var(--color-text-secondary); flex-shrink: 0; }
+.ex-num.alt-num { background: #5DCAA5; color: #04342C; }
+.ex-body { flex: 1; min-width: 0; }
+.ex-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+.alt-card .ex-name { color: #085041; }
+.ex-note { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; line-height: 1.5; }
+.alt-card .ex-note { color: #0F6E56; }
+.ex-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.ex-tag { padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500; }
+.ts { background: #F1EFE8; color: #444441; }
+.tr { background: #E6F1FB; color: #0C447C; }
+.ti2 { background: #FAEEDA; color: #633806; }
+.tt { background: #EEEDFE; color: #3C3489; }
+.ta { background: #EAF3DE; color: #27500A; }
+.talt { background: #9FE1CB; color: #04342C; }
+hr.div { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.1rem 0; }
+/* Abs home */
+.abs-block { background: #EAF3DE; border: 0.5px solid #97C459; border-radius: var(--border-radius-lg); padding: 0.85rem 1rem; margin-bottom: 0.85rem; }
+.abs-block-title { font-size: 11px; font-weight: 500; color: #27500A; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+.abs-ex { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 0.65rem 0.85rem; margin-bottom: 6px; display: flex; align-items: flex-start; gap: 10px; }
+.abs-num { min-width: 22px; height: 22px; border-radius: 50%; background: #C0DD97; color: #173404; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; flex-shrink: 0; }
+.abs-body { flex: 1; }
+.abs-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 2px; }
+.abs-note { font-size: 11px; color: var(--color-text-secondary); line-height: 1.4; margin-bottom: 4px; }
+/* Forearm */
+.fore-block { background: #FAEEDA; border: 0.5px solid #EF9F27; border-radius: var(--border-radius-lg); padding: 0.85rem 1rem; margin-bottom: 0.85rem; }
+.fore-title { font-size: 11px; font-weight: 500; color: #854F0B; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+.fore-ex { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 0.65rem 0.85rem; margin-bottom: 6px; display: flex; align-items: flex-start; gap: 10px; }
+/* Hipo */
+.hipo-block { background: #EEEDFE; border: 0.5px solid #AFA9EC; border-radius: var(--border-radius-lg); padding: 0.85rem 1rem; margin-bottom: 0.85rem; }
+.hipo-title { font-size: 11px; font-weight: 500; color: #3C3489; margin-bottom: 6px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+.hipo-steps { list-style: none; }
+.hipo-steps li { font-size: 12px; color: #534AB7; padding: 3px 0; display: flex; gap: 7px; line-height: 1.5; }
+.hipo-steps li::before { content: '→'; flex-shrink: 0; color: #7F77DD; }
+/* Treadmill */
+.tread-block { background: #FCEBEB; border: 0.5px solid #F09595; border-radius: var(--border-radius-lg); padding: 0.85rem 1rem; }
+.tread-title { font-size: 11px; font-weight: 500; color: #A32D2D; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+.tread-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-bottom: 8px; }
+.tread-stat { background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 0.55rem 0.75rem; text-align: center; }
+.tread-val { font-size: 20px; font-weight: 500; color: #A32D2D; }
+.tread-label { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+.tread-note { font-size: 12px; color: #791F1F; line-height: 1.5; }
+/* Rest */
+.rest-box { text-align: center; padding: 2rem 0; }
+</style>
+
+<div class="container">
+  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden">Rutina PPL v3 — con alternativas y antebrazo</h2>
+  <div class="day-tabs" id="tabs"></div>
+  <div id="content"></div>
+</div>
+
+<script>
+const TREAD = `<div class="tread-block"><div class="tread-title"><i class="ti ti-walk" aria-hidden="true"></i> Cardio final — caminadora inclinada</div><div class="tread-grid"><div class="tread-stat"><div class="tread-val">35</div><div class="tread-label">minutos</div></div><div class="tread-stat"><div class="tread-val">15%</div><div class="tread-label">inclinación</div></div><div class="tread-stat"><div class="tread-val">4.2</div><div class="tread-label">km/h</div></div></div><div class="tread-note">Zona 2 — quema grasa sin catabolismo. No te apoyes en las barras: pierdes el efecto metabólico. Activa glúteo, sóleo y erector espinal.</div></div>`;
+
+const HIPO = `<div class="hipo-block"><div class="hipo-title"><i class="ti ti-lungs" aria-hidden="true"></i> Hipopresivos — 3 series (en casa, antes de dormir)</div><ul class="hipo-steps"><li>De pie o en cuadrupedia, espalda recta, rodillas semiflexionadas.</li><li>Exhala todo el aire completamente.</li><li>Cierra la glotis y expande las costillas hacia los lados (sin inhalar).</li><li>Mantén la apnea con expansión costal: 20–30 segundos.</li><li>Inhala lento. Descansa 60s. Repite 3 veces.</li></ul></div>`;
+
+const ORDER = `<div class="order-banner"><i class="ti ti-sort-descending" style="font-size:15px;flex-shrink:0" aria-hidden="true"></i><span>Sigue el orden numerado. Compuestos primero (mayor peso/energía), aislamiento al final. Invertirlo reduce hasta un 15% la fuerza en los compuestos.</span></div>`;
+
+const days = [
+  {
+    id:'mon', label:'Lun', type:'push',
+    title:'Push — Pecho · Hombros · Tríceps',
+    fasted: null,
+    warmup:['Rotación hombros 2×10','Band pull-aparts 3×15','Cable fly ligero 2×12','Manguito rotador banda 2×15','Push-ups 2×10','Movilidad torácica'],
+    groups:[
+      {name:'① Pecho superior — compuesto principal', exs:[
+        {n:1,name:'Press inclinado con barra (30–45°)',note:'Primero del día: máxima energía → máximo peso. ROM completo, toca el pecho cada rep.',sets:'5',reps:'4–6',int:'RPE 9',tech:'Pausa 1s abajo'},
+        {n:2,name:'Press inclinado con mancuernas (rotación interna)',note:'Agarre neutro → pronación al subir. Mayor ROM en el hombro y estímulo diferente al de la barra.',sets:'3',reps:'8–10',int:'RPE 8',tech:'Tempo 3-1-1'},
+      ]},
+      {name:'② Pecho medio e inferior', exs:[
+        {n:3,name:'Cable crossover desde polea media',note:'Tensión constante en todo el ROM. Superior al fly libre en el punto de contracción máxima.',sets:'4',reps:'12–15',int:'RPE 8',tech:'Pausa 2s contraído'},
+        {n:4,name:'Fondos con peso — dips en barra paralela',note:'Cuerpo inclinado 15° al frente. Alta activación del pec inferior y deltoides anterior.',sets:'4',reps:'6–10',int:'RPE 9',tech:'+Peso en cadena'},
+        {n:5,name:'Cable crossover desde polea alta → abajo',note:'Énfasis en el pec inferior. Permite estirar completamente el músculo en la posición inicial.',sets:'3',reps:'15–20',int:'RPE 7',tech:'Squeeze 2s'},
+      ]},
+      {name:'③ Hombros', exs:[
+        {n:6,name:'Press Arnold sentado',note:'La rotación activa las 3 cabezas del deltoides. Mayor reclutamiento que el press convencional.',sets:'4',reps:'8–10',int:'RPE 8',tech:'Rango completo'},
+        {n:7,name:'Elevación lateral con cable (brazo cruzado)',note:'Tensión desde 0° a 90°. EMG del deltoides medio superior al de mancuerna (Schoenfeld).',sets:'4',reps:'15–20',int:'RPE 8',tech:'Codo ligeramente flexionado'},
+      ]},
+      {name:'④ Tríceps', exs:[
+        {n:8,name:'Extensión overhead con EZ-bar',note:'Mayor estiramiento de la cabeza larga, que representa el 60% del volumen del tríceps.',sets:'3',reps:'10–12',int:'RPE 8',tech:'Codos fijos'},
+        {n:9,name:'Pushdown en cable con cuerda + pronación',note:'La pronación activa la cabeza lateral. Doble tensión: extensión de codo + rotación.',sets:'3',reps:'12–15',int:'RPE 8',tech:'Pausa en contracción'},
+      ]},
+    ],
+    abs:[
+      {n:1,name:'Crunch estándar',note:'20 reps lentas. Sube solo hasta que despeguen los omóplatos. No jalas el cuello.'},
+      {n:2,name:'Reverse crunch (elevación de cadera)',note:'Acuesta. Levanta la cadera del suelo llevando rodillas hacia el pecho. Controla la bajada.'},
+      {n:3,name:'Plank (plancha frontal)',note:'Codos bajo los hombros. Aprieta glúteo y core. Sin hundir la cadera.'},
+    ],
+    fore: false,
+  },
+  {
+    id:'tue', label:'Mar', type:'pull',
+    title:'Pull — Espalda · Bíceps · Antebrazos',
+    fasted:'Cardio en ayunas: 30 min LISS zona 2 (bicicleta o caminadora 5%). No hay piernas hoy → sin interferencia de glucógeno.',
+    warmup:['Dead hangs 3×20s','Band pull-aparts 3×15','Face pull ligero 2×15','Jalones escapulares 2×10','Remo sin carga 2×10','Rotación torácica'],
+    groups:[
+      {name:'① Espalda amplitud — compuesto principal', exs:[
+        {n:1,name:'Dominadas lastradas (agarre supino o neutro)',note:'El agarre supino añade ROM del bíceps y estiramiento del dorsal. Primero, con toda la energía disponible.',sets:'5',reps:'4–6',int:'RPE 9',tech:'+Cadena o cinturón'},
+        {n:2,name:'Jalón al pecho con agarre neutro ancho',note:'Agarre neutro activa el teres mayor. Complementa las dominadas con más volumen.',sets:'3',reps:'10–12',int:'RPE 8',tech:'Codo hacia el suelo'},
+      ]},
+      {name:'② Espalda grosor', exs:[
+        {n:3,name:'Remo con barra overhand (45° de inclinación)',note:'El ángulo de 45° activa el deltoides posterior y romboide. Retracción escapular completa.',sets:'5',reps:'5–7',int:'RPE 9',tech:'Retracción escapular'},
+        {n:4,name:'Remo unilateral con mancuerna (Kroc row)',note:'Peso máximo manejable. Ligero momentum permitido para mayor sobrecarga.',sets:'3',reps:'8–10',int:'RPE 9',tech:'Ligero momentum ok'},
+        {n:5,name:'Cable pullover en polea alta',note:'Aísla el dorsal sin bíceps. Alta activación EMG del lat. Codo semiflexionado fijo.',sets:'3',reps:'12–15',int:'RPE 7',tech:'Codo semiflexionado'},
+      ]},
+      {name:'③ Deltoides posterior y trapecios', exs:[
+        {n:6,name:'Face pull con cuerda + rotación externa',note:'Deltoides posterior, manguito rotador y trapecios medios. Esencial para la salud del hombro.',sets:'4',reps:'15–20',int:'RPE 7',tech:'Codos a altura de hombros'},
+        {n:7,name:'Encogimiento en cable lateral (Meadows shrug)',note:'Tensión constante en todo el ROM. Pausa de 1s arriba para máxima contracción del trapecio.',sets:'3',reps:'12–15',int:'RPE 8',tech:'Pausa 1s arriba'},
+      ]},
+      {name:'④ Bíceps', exs:[
+        {n:8,name:'Curl inclinado con mancuernas (45°)',note:'El banco a 45° estira la cabeza larga. Mayor señal hipertrófica por tensión en estiramiento.',sets:'3',reps:'10–12',int:'RPE 8',tech:'Supinación en subida'},
+        {n:9,name:'Spider curl o predicador 90°',note:'Elimina momentum. Sobrecarga la cabeza corta en contracción máxima.',sets:'3',reps:'10–12',int:'RPE 8',tech:'Pausa 2s contraído'},
+        {n:10,name:'Curl de martillo con cuerda en cable',note:'Activa el braquiorradial y braquial. Grosor general del brazo que el curl normal no da.',sets:'3',reps:'12–15',int:'RPE 7',tech:'Alternado'},
+      ]},
+    ],
+    abs:[
+      {n:1,name:'Bicycle crunch',note:'Codo derecho → rodilla izquierda y viceversa. Lento y controlado. 20 repeticiones cada lado.'},
+      {n:2,name:'Elevación de piernas acostado',note:'Piernas rectas, baja sin tocar el suelo. Si es difícil, dobla las rodillas al 90°.'},
+      {n:3,name:'Russian twist',note:'Sentado a 45°. Gira el torso de lado a lado. Puedes añadir un peso pequeño si tienes en casa.'},
+    ],
+    fore: true,
+  },
+  {
+    id:'wed', label:'Mié', type:'legs',
+    title:'Legs — Cuádriceps · Isquios · Glúteos · Pantorrillas',
+    fasted: null,
+    altNotice:'El Nordic curl y el glute-ham raise fueron reemplazados por ejercicios equivalentes disponibles en cualquier gimnasio.',
+    warmup:['Foam roll cuáds/isquios 5 min','Hip circles 2×10','Leg swings F/L 2×10','Glute bridge 2×15','Sentadilla sin carga 2×10','RDL con palo 2×8'],
+    groups:[
+      {name:'① Cuádriceps — compuesto principal', exs:[
+        {n:1,name:'Sentadilla trasera barra alta (ATG)',note:'ROM completo = mayor hipertrofia (Bloomquist et al.). Primero del día con máxima energía.',sets:'5',reps:'4–6',int:'RPE 9',tech:'Cinturón + muñequeras'},
+        {n:2,name:'Sentadilla búlgara con mancuernas',note:'Unilateral. Equilibra fuerza entre piernas, activa glúteo y cuádriceps por separado.',sets:'4',reps:'8–10 c/pierna',int:'RPE 8',tech:'Pierna delantera activa'},
+        {n:3,name:'Extensión de cuádriceps + BFR (oclusión)',note:'Oclusión al 50%. Hipertrofia equivalente al trabajo pesado con menos carga articular (Loenneke).',sets:'4',reps:'15–20',int:'RPE 8',tech:'Pausa 2s arriba'},
+      ]},
+      {name:'② Isquiotibiales', exs:[
+        {n:4,name:'Peso muerto rumano (RDL) con barra',note:'Extensión de cadera + estiramiento profundo. Alta activación del bíceps femoral en el descenso.',sets:'4',reps:'8–10',int:'RPE 8',tech:'Rodilla ligeramente flexionada'},
+        {n:5,name:'Curl femoral acostado (prone leg curl)',note:'Trabajo en acortamiento total. Con RDL cubre el músculo en dos posiciones: estirado y acortado.',sets:'3',reps:'12–15',int:'RPE 8',tech:'Drop set en última serie'},
+        {n:6,name:'Curl femoral sentado — excéntrico lento (4–5s)',note:'Alternativa al nórdico: el excéntrico lento en máquina genera el mismo estrés mecánico sin necesitar la máquina específica. Enfócate en resistir la bajada.',sets:'3',reps:'8–10',int:'RPE 9',tech:'4–5s en el descenso',alt:true},
+      ]},
+      {name:'③ Glúteos', exs:[
+        {n:7,name:'Hip thrust con barra',note:'Mayor activación EMG del glúteo mayor. Extensión completa con retroversión pélvica. Aprieta 2s arriba.',sets:'4',reps:'10–12',int:'RPE 8',tech:'Aprieta glúteo 2s'},
+        {n:8,name:'Press de pierna (pie alto y ancho)',note:'Posición alta activa más el glúteo. Complementa el hip thrust con carga mayor.',sets:'3',reps:'12–15',int:'RPE 7',tech:'Sin lock al extender'},
+      ]},
+      {name:'④ Pantorrillas', exs:[
+        {n:9,name:'Elevación de pantorrilla de pie (gastrocnemio)',note:'Tipo I: necesita alto volumen. Pausa 2s en estiramiento en escalón = mayor señal hipertrófica.',sets:'5',reps:'15–20',int:'RPE 8',tech:'Pausa 2s abajo'},
+        {n:10,name:'Elevación sentado con mancuernas (sóleo)',note:'Rodilla flexionada aísla el sóleo. Da profundidad y grosor a la pantorrilla.',sets:'4',reps:'20–25',int:'RPE 7',tech:'Pausa 1s abajo'},
+      ]},
+    ],
+    abs:[
+      {n:1,name:'Crunch lento con pausa',note:'Sube lento (2s), pausa 1s arriba, baja lento (3s). 15 reps. Sin jalear el cuello.'},
+      {n:2,name:'Mountain climbers',note:'Plank alto. Lleva cada rodilla al pecho lo más rápido posible durante 30 segundos. 3 rondas.'},
+      {n:3,name:'Plank lateral',note:'Apoyo en codo y borde del pie. Cadera elevada. 30–40 segundos por lado.'},
+    ],
+    fore: false,
+  },
+  {
+    id:'thu', label:'Jue', type:'push',
+    title:'Push — Hombros · Pecho · Tríceps',
+    fasted:'Cardio en ayunas: 20 min HIIT en bicicleta o remo (8–10 rondas: 20s máximo / 40s descanso). Sin piernas hoy → sin interferencia.',
+    warmup:['Rotación hombros 2×10','Band pull-aparts 3×15','Movilidad torácica foam roller','Manguito rotador con banda 2×15','Landmine press ligero 2×8'],
+    groups:[
+      {name:'① Hombros — compuesto principal', exs:[
+        {n:1,name:'Press militar con barra de pie',note:'Hombros como protagonistas esta sesión. Core apretado. Sin hiperextender la columna lumbar.',sets:'5',reps:'4–6',int:'RPE 9',tech:'Sin hiperextensión'},
+        {n:2,name:'Elevación lateral en cable + drop set',note:'Tensión constante desde 0°. EMG del deltoides medio superior a mancuerna. Drop sin descanso.',sets:'4',reps:'12–15 + drop',int:'RPE 9',tech:'Drop inmediato c/serie'},
+        {n:3,name:'Upright row en cable (agarre ancho)',note:'Agarre más ancho que hombros evita impingement. Activa deltoides medio y trapecios.',sets:'3',reps:'12–15',int:'RPE 7',tech:'No pasar los 90°'},
+        {n:4,name:'Face pull + W-raise',note:'Equilibra anterior/posterior del hombro. Fundamental para salud articular y postura.',sets:'3',reps:'15–20',int:'RPE 7',tech:'Retracción escapular'},
+      ]},
+      {name:'② Pecho', exs:[
+        {n:5,name:'Press plano con mancuernas (toque profundo)',note:'Mayor ROM que con barra. El mayor estiramiento del pec mayor = mayor estímulo hipertrófico.',sets:'4',reps:'8–10',int:'RPE 8',tech:'Toca el hombro c/mancuerna'},
+        {n:6,name:'Fly con cable desde poleas medias',note:'Arco completo 0° a 90°. Tensión constante en todo el recorrido.',sets:'3',reps:'12–15',int:'RPE 8',tech:'Squeeze 2s al centro'},
+        {n:7,name:'Press en máquina convergente con pausa',note:'La convergencia replica el patrón natural del pec. Pausa en contracción aumenta el TUT.',sets:'3',reps:'10–12',int:'RPE 8',tech:'Pausa 2s en contracción'},
+      ]},
+      {name:'③ Tríceps', exs:[
+        {n:8,name:'Extensión declinada unilateral con mancuerna',note:'Banco a -15°: mayor estiramiento de la cabeza larga. Estímulo diferente al overhead del lunes.',sets:'3',reps:'10–12',int:'RPE 8',tech:'Codo fijo, ROM completo'},
+        {n:9,name:'Kickback en cable con polea baja',note:'Extensión completa en acortamiento máximo. Sin momentum a diferencia del kickback libre.',sets:'3',reps:'15–20',int:'RPE 7',tech:'Codo pegado al cuerpo'},
+        {n:10,name:'Superserie: dip máquina → fondos corporales',note:'Máquina hasta el fallo → inmediatamente fondos. Pre-fatiga que aumenta el reclutamiento total.',sets:'3',reps:'Fallo + 5 fondos',int:'RPE 10',tech:'Sin descanso entre'},
+      ]},
+    ],
+    abs:[
+      {n:1,name:'Reverse crunch con elevación de cadera',note:'Piernas hacia arriba y levanta la cadera del piso. Controla la bajada. 15 reps.'},
+      {n:2,name:'Plank frontal sostenido',note:'45 segundos. Core y glúteo apretado. Sin hundir la cadera ni levantar el trasero.'},
+      {n:3,name:'Bicycle crunch lento',note:'15 reps por lado. Enfócate en la rotación real del torso, no en el codo.'},
+    ],
+    fore: false,
+  },
+  {
+    id:'fri', label:'Vie', type:'pull',
+    title:'Pull — Espalda · Bíceps · Antebrazos',
+    fasted:'Cardio en ayunas: 30 min LISS zona 2 (caminadora 5% o bicicleta 65–70% FCmáx). Sin piernas hoy → glucógeno de piernas intacto para mañana.',
+    warmup:['Dead hangs 3×20s','Scapular pull-ups 2×10','Band pull-aparts 3×15','Face pull ligero 2×15','Remo en polea sin carga 2×10'],
+    groups:[
+      {name:'① Espalda amplitud — variación del martes', exs:[
+        {n:1,name:'Jalón al pecho con agarre supino ancho',note:'El supino activa el bíceps como sinergista mayor. Permite mayor carga que las dominadas.',sets:'5',reps:'6–8',int:'RPE 9',tech:'Pecho adelante, lat contraído'},
+        {n:2,name:'Pullover en máquina / cable de rodillas',note:'Aísla el dorsal sin bíceps. Vector diferente al jalón vertical del martes.',sets:'4',reps:'12–15',int:'RPE 8',tech:'Codo semiflexionado'},
+        {n:3,name:'Remo en máquina chest-supported',note:'El soporte elimina carga en la columna. Mayor volumen y estiramiento del romboides.',sets:'4',reps:'10–12',int:'RPE 8',tech:'Codo atrás del cuerpo'},
+      ]},
+      {name:'② Espalda grosor + lumbar', exs:[
+        {n:4,name:'Peso muerto — sesión de velocidad (CAT)',note:'55–65% del 1RM a máxima velocidad concéntrica. Mantiene el SNC sin agotar reservas.',sets:'6',reps:'3',int:'RPE 7',tech:'Máxima velocidad concéntrica'},
+        {n:5,name:'Remo unilateral en polea baja (hip hinge)',note:'Activa el cuadrado lumbar y glúteo contralateral como estabilizadores.',sets:'3',reps:'10–12',int:'RPE 8',tech:'Cadera estable'},
+      ]},
+      {name:'③ Bíceps', exs:[
+        {n:6,name:'Curl predicador en máquina',note:'Mayor carga que con barra. Contracción máxima en acortamiento total con pausa de 2s.',sets:'4',reps:'10–12',int:'RPE 8',tech:'Pausa 2s contraído'},
+        {n:7,name:'Curl concentrado',note:'El apoyo del codo en el muslo elimina todo el momentum. Highest isolation por EMG (ACE, 2014).',sets:'3',reps:'12–15',int:'RPE 8',tech:'Sin balanceo alguno'},
+        {n:8,name:'Curl en cable inclinado',note:'Doble estiramiento: codo y hombro. Tensión constante del cable superior al inclinado libre.',sets:'3',reps:'12–15',int:'RPE 7',tech:'Cable entre las piernas'},
+      ]},
+      {name:'④ Posterior y trapecios', exs:[
+        {n:9,name:'Reverse fly en cable cruzado',note:'Poleas opuestas a nivel del pecho. Mayor ROM que el fly invertido con mancuernas.',sets:'3',reps:'15–20',int:'RPE 7',tech:'Codo ligeramente flexionado'},
+        {n:10,name:'Encogimiento con barra (trapecio superior)',note:'Movimiento vertical estricto. El trapecio responde mejor a cargas pesadas (Thibaudeau).',sets:'4',reps:'6–8',int:'RPE 9',tech:'Pausa 1s arriba'},
+      ]},
+    ],
+    abs:[
+      {n:1,name:'Elevación de piernas acostado',note:'Piernas rectas. Baja hasta casi tocar el suelo y sube. Si es muy difícil, dobla las rodillas.'},
+      {n:2,name:'Russian twist con peso (botella de agua)',note:'Torso a 45°. Gira de lado a lado controlado. 20 reps por lado.'},
+      {n:3,name:'Superman (extensión en prono)',note:'Boca abajo. Levanta brazos y piernas simultáneamente. Sostén 2s arriba. 15 reps. Activa lumbar.'},
+    ],
+    fore: true,
+  },
+  {
+    id:'sat', label:'Sáb', type:'legs',
+    title:'Legs — Variación fuerza-hipertrofia',
+    fasted: null,
+    altNotice:'El Nordic curl fue reemplazado por RDL unilateral — mismo patrón de carga en el isquiotibial sin la máquina específica.',
+    warmup:['Foam roll IT band + piriforme 5 min','Hip circles 2×10','Goblet squat 2×10','Activación glúteo con banda 2×15','Zancada sin peso 2×10','Box step-up 2×10'],
+    groups:[
+      {name:'① Cuádriceps — variación del miércoles', exs:[
+        {n:1,name:'Sentadilla frontal (front squat)',note:'Mayor activación del cuádriceps que la trasera (Contreras). Columna vertical = menos torque en rodilla.',sets:'4',reps:'5–7',int:'RPE 9',tech:'Codos altos, pecho erguido'},
+        {n:2,name:'Hack squat (pie bajo y estrecho)',note:'Énfasis en el vasto externo. Vector diferente a la sentadilla trasera del miércoles.',sets:'4',reps:'10–12',int:'RPE 8',tech:'Rango completo'},
+        {n:3,name:'Walking lunges con mancuernas',note:'Trabajo unilateral dinámico. Añade componente cardiovascular al cuádriceps y glúteo.',sets:'4',reps:'12–16 c/pierna',int:'RPE 8',tech:'Rodilla no toca el suelo'},
+      ]},
+      {name:'② Isquiotibiales y glúteos', exs:[
+        {n:4,name:'Peso muerto sumo',note:'Mayor activación del aductor y glúteo vs. convencional. Complementa el patrón de cadera de la semana.',sets:'4',reps:'6–8',int:'RPE 9',tech:'Punta del pie 45° afuera'},
+        {n:5,name:'Curl femoral de pie (standing leg curl)',note:'La posición de pie alarga el músculo diferente. Mayor activación de la cabeza corta del bíceps femoral.',sets:'3',reps:'12–15',int:'RPE 8',tech:'Unilateral si disponible'},
+        {n:6,name:'Single-leg RDL (RDL unilateral) con mancuerna',note:'Alternativa al nórdico: Mayor estiramiento unilateral del isquiotibial. Activa el glúteo contralateral como estabilizador. Controla la bajada en 3–4 segundos.',sets:'3',reps:'10–12 c/pierna',int:'RPE 8',tech:'Excéntrico 3–4s, cadera estable',alt:true},
+        {n:7,name:'Patada de glúteo en cable (kickback)',note:'Aísla el glúteo en extensión completa. Ataca el punto de acortamiento donde el hip thrust tiene menos tensión.',sets:'3',reps:'15–20',int:'RPE 7',tech:'Pelvis estable'},
+      ]},
+      {name:'③ Pantorrillas', exs:[
+        {n:8,name:'Elevación de pantorrilla en prensa de pierna',note:'Mayor carga que de pie. ROM completo del tobillo sin riesgo de equilibrio.',sets:'4',reps:'20–25',int:'RPE 8',tech:'Pausa 2s en estiramiento'},
+        {n:9,name:'Elevación unilateral en escalón con mancuerna',note:'Mayor ROM y estímulo propioceptivo. El escalón permite estiramiento profundo del gastrocnemio.',sets:'3',reps:'15–20',int:'RPE 8',tech:'ROM completo'},
+      ]},
+    ],
+    abs:[
+      {n:1,name:'Crunch estándar lento',note:'20 reps. 2 segundos subiendo, 1s pausa arriba, 3 segundos bajando. Sin jalarte el cuello.'},
+      {n:2,name:'Plank lateral con elevación de cadera',note:'Plank lateral normal, luego baja la cadera y vuelve a subir. 10 reps por lado.'},
+      {n:3,name:'Mountain climbers',note:'30 segundos a máxima velocidad. 3 rondas con 20s de descanso. Activa el core de forma dinámica.'},
+    ],
+    fore: false,
+  },
+  {
+    id:'sun', label:'Dom', type:'rest', title:'Descanso activo', rest:true
+  }
+];
+
+const foreExs = [
+  {n:1,name:'Wrist curl con barra — palmar (flexores)',note:'Antebrazo apoyado en banco, agarre supino. Mueve solo la muñeca hacia arriba. Desarrolla el grosor interno del antebrazo.',sets:'3',reps:'15–20',int:'RPE 8',tech:'Solo muñeca, no el codo'},
+  {n:2,name:'Reverse curl con EZ-bar (extensores)',note:'Agarre prono. Curl completo desde la extensión. Activa el braquiorradial y extensores del carpo.',sets:'3',reps:'12–15',int:'RPE 7',tech:'Codos fijos al cuerpo'},
+  {n:3,name:'Farmer\'s walk con mancuernas pesadas',note:'Agarra el peso máximo que puedas sostener. Camina 30–40 metros. Desarrolla el grip y el antebrazo completo.',sets:'3',reps:'30–40 metros',int:'RPE 8',tech:'Espalda recta, hombros bajos'},
+];
+
+function exCard(e) {
+  const isAlt = e.alt;
+  return `<div class="exercise-card${isAlt?' alt-card':''}">
+    <div class="ex-num${isAlt?' alt-num':''}">${e.n}</div>
+    <div class="ex-body">
+      <div class="ex-name">${isAlt?'<span style="font-size:11px;font-weight:500;background:#5DCAA5;color:#04342C;padding:1px 7px;border-radius:10px;margin-right:5px">ALT</span>':''}${e.name}</div>
+      <div class="ex-note">${e.note}</div>
+      <div class="ex-tags">
+        <span class="ex-tag ts">${e.sets} series</span>
+        <span class="ex-tag tr">${e.reps}</span>
+        <span class="ex-tag ti2">${e.int}</span>
+        <span class="ex-tag tt"><i class="ti ti-bulb" aria-hidden="true"></i> ${e.tech}</span>
+        ${isAlt?'<span class="ex-tag talt">Alternativa disponible en gym</span>':''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function absCard(e) {
+  return `<div class="abs-ex"><div class="abs-num">${e.n}</div><div class="abs-body"><div class="abs-name">${e.name}</div><div class="abs-note">${e.note}</div></div></div>`;
+}
+
+function foreCard(e) {
+  return `<div class="fore-ex">
+    <div class="ex-num">${e.n}</div>
+    <div class="ex-body">
+      <div class="ex-name">${e.name}</div>
+      <div class="ex-note">${e.note}</div>
+      <div class="ex-tags">
+        <span class="ex-tag ts">${e.sets} series</span>
+        <span class="ex-tag tr">${e.reps}</span>
+        <span class="ex-tag ti2">${e.int}</span>
+        <span class="ex-tag tt">${e.tech}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderDay(day) {
+  if (day.rest) return `<div class="rest-box">
+    <i class="ti ti-moon" style="font-size:36px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+    <div style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin:0.75rem 0 0.5rem">Descanso activo — Domingo</div>
+    <div style="font-size:14px;color:var(--color-text-secondary);line-height:1.7;max-width:400px;margin:0 auto">Recuperación total. Caminata 30–40 min zona 1–2 opcional. Movilidad o stretching. Duerme 8h. El músculo crece aquí, no durante el entrenamiento.</div>
+  </div>`;
+
+  let html = '';
+  if (day.fasted) html += `<div class="cardio-notice"><i class="ti ti-sun" style="font-size:15px;flex-shrink:0" aria-hidden="true"></i><span><strong>Cardio en ayunas:</strong> ${day.fasted}</span></div>`;
+  if (day.altNotice) html += `<div class="alt-notice"><i class="ti ti-replace" style="font-size:15px;flex-shrink:0" aria-hidden="true"></i><span>${day.altNotice}</span></div>`;
+  html += ORDER;
+  html += `<div class="warmup-box"><div class="block-title"><i class="ti ti-flame" aria-hidden="true"></i> Calentamiento</div><div class="warmup-items">${day.warmup.map(w=>`<span class="warmup-chip">${w}</span>`).join('')}</div></div>`;
+  html += `<div class="info-grid">
+    <div class="info-card"><div class="info-label">Duración sesión</div><div class="info-val">80–95 min + 35 min caminadora</div></div>
+    <div class="info-card"><div class="info-label">Compuestos: descanso</div><div class="info-val">3–4 minutos</div></div>
+    <div class="info-card"><div class="info-label">Aislamiento: descanso</div><div class="info-val">60–90 segundos</div></div>
+  </div>`;
+  for (const g of day.groups) {
+    html += `<div class="muscle-group"><div class="muscle-label">${g.name}</div>${g.exs.map(exCard).join('')}</div>`;
+  }
+  html += `<hr class="div">`;
+  if (day.fore) {
+    html += `<div class="fore-block"><div class="fore-title"><i class="ti ti-arm" aria-hidden="true"></i> Antebrazos — al final de la sesión (días de espalda)</div>${foreExs.map(foreCard).join('')}</div>`;
+  }
+  html += `<div class="abs-block"><div class="abs-block-title"><i class="ti ti-body-scan" aria-hidden="true"></i> Abdomen en casa — 3 ejercicios simples</div>${day.abs.map(absCard).join('')}</div>`;
+  html += HIPO;
+  html += TREAD;
+  return html;
+}
+
+function buildTabs() {
+  const container = document.getElementById('tabs');
+  const typeMap = {push:'ap',pull:'al',legs:'ag',rest:'ar'};
+  days.forEach(day => {
+    const t = day.rest ? 'rest' : day.type;
+    const cls = typeMap[t] || 'ar';
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn';
+    btn.textContent = day.label;
+    btn.dataset.id = day.id;
+    btn.dataset.cls = cls;
+    btn.dataset.type = t;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.className='tab-btn');
+      btn.className = `tab-btn ${btn.dataset.cls}`;
+      const d = days.find(x=>x.id===day.id);
+      const bc = {push:'bp',pull:'bl',legs:'bg',rest:'br'}[t]||'br';
+      document.getElementById('content').innerHTML = `<div class="section-header"><span class="day-badge ${bc}">${d.type?d.type.toUpperCase():'REST'}</span><span class="section-title">${d.title}</span></div>${renderDay(d)}`;
+    });
+    container.appendChild(btn);
+  });
+  const first = container.querySelector('.tab-btn');
+  first.className = `tab-btn ${first.dataset.cls}`;
+  const fd = days[0];
+  const fbc = {push:'bp',pull:'bl',legs:'bg',rest:'br'}[fd.type]||'br';
+  document.getElementById('content').innerHTML = `<div class="section-header"><span class="day-badge ${fbc}">${fd.type.toUpperCase()}</span><span class="section-title">${fd.title}</span></div>${renderDay(fd)}`;
+}
+buildTabs();
+</script>
