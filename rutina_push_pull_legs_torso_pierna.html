@@ -1,0 +1,1100 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+.hdr{text-align:center;padding:1.2rem 1rem 0.8rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.hdr h1{font-size:13px;font-weight:500;letter-spacing:0.12em;color:var(--color-text-secondary);text-transform:uppercase}
+.hdr p{font-size:11px;color:var(--color-text-tertiary);margin-top:4px}
+.days{display:flex;gap:0;border-bottom:0.5px solid var(--color-border-tertiary);overflow-x:auto;scrollbar-width:none}
+.days::-webkit-scrollbar{display:none}
+.day-btn{flex:1;min-width:44px;padding:10px 2px 8px;text-align:center;font-size:11px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--color-text-secondary);border-bottom:2px solid transparent;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:2px}
+.day-btn .dletter{font-size:17px;font-weight:500;line-height:1}
+.day-btn.active{color:var(--color-text-primary);border-bottom-color:var(--color-text-primary)}
+.day-btn:hover{color:var(--color-text-primary)}
+.content{padding:0 0 2rem}
+.day-panel{display:none}
+.day-panel.active{display:block}
+.section{margin:0.8rem 0.75rem 0}
+.sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sec-hdr i{font-size:15px}
+.sec-title{font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-secondary)}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;margin-left:auto}
+.warm-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 12px;border:0.5px solid var(--color-border-tertiary)}
+.warm-item{font-size:12.5px;color:var(--color-text-secondary);padding:3px 0;display:flex;align-items:flex-start;gap:6px}
+.warm-item::before{content:"·";color:var(--color-text-tertiary);flex-shrink:0;margin-top:1px}
+.ex-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 12px;margin-bottom:6px;position:relative}
+.ex-num{position:absolute;top:10px;right:12px;font-size:10px;color:var(--color-text-tertiary);font-weight:500}
+.ex-name{font-size:13.5px;font-weight:500;color:var(--color-text-primary);padding-right:24px;line-height:1.3}
+.ex-muscle{font-size:10.5px;color:var(--color-text-tertiary);margin-top:2px;margin-bottom:6px}
+.ex-stats{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.stat-pill{font-size:10.5px;padding:3px 8px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+.stat-pill strong{color:var(--color-text-primary);font-weight:500}
+.ex-note{font-size:11px;color:var(--color-text-tertiary);margin-top:5px;line-height:1.4;border-left:2px solid var(--color-border-secondary);padding-left:7px}
+.divider-label{font-size:10px;font-weight:500;letter-spacing:0.08em;color:var(--color-text-tertiary);text-transform:uppercase;text-align:center;margin:8px 0 6px;display:flex;align-items:center;gap:8px}
+.divider-label::before,.divider-label::after{content:"";flex:1;height:0.5px;background:var(--color-border-tertiary)}
+.cardio-card{border-radius:var(--border-radius-md);padding:10px 12px;border:0.5px solid var(--color-border-secondary)}
+.cardio-title{font-size:12px;font-weight:500;margin-bottom:4px}
+.cardio-detail{font-size:11.5px;color:var(--color-text-secondary);line-height:1.5}
+.tip-box{background:var(--color-background-info);border:0.5px solid var(--color-border-info);border-radius:var(--border-radius-md);padding:8px 12px;margin-top:6px}
+.tip-box p{font-size:11.5px;color:var(--color-text-info);line-height:1.5}
+.rest-block{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:14px 12px;margin:0.8rem 0.75rem 0;border:0.5px solid var(--color-border-tertiary)}
+.rest-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.rest-item:last-child{border-bottom:none;padding-bottom:0}
+.rest-item i{font-size:18px;color:var(--color-text-secondary);width:22px;text-align:center}
+.rest-info{flex:1}
+.rest-label{font-size:12.5px;font-weight:500}
+.rest-desc{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.rest-time{font-size:11px;color:var(--color-text-tertiary);text-align:right;white-space:nowrap}
+.rpe-legend{display:flex;gap:6px;flex-wrap:wrap;padding:8px 0.75rem 0}
+.rpe-item{font-size:10px;color:var(--color-text-tertiary)}
+.rpe-item strong{color:var(--color-text-secondary)}
+.day-tag{padding:10px 0.75rem 4px}
+.day-tag-inner{border-radius:var(--border-radius-md);padding:8px 12px;display:flex;align-items:center;gap:10px}
+.day-tag-title{font-size:16px;font-weight:500}
+.day-tag-sub{font-size:11px;margin-top:1px}
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ab-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;border:0.5px solid var(--color-border-tertiary)}
+.ab-name{font-size:12px;font-weight:500}
+.ab-detail{font-size:10.5px;color:var(--color-text-secondary);margin-top:2px}
+</style>
+
+<h2 class="sr-only">Rutina Push Pull Legs Torso Pierna — programa semanal completo con ejercicios, cardio, abdomen e hipopresivos</h2>
+
+<div class="hdr">
+  <h1>Programa Push · Pull · Legs · Torso</h1>
+  <p>Hipertrofia · Reducción de grasa · Basado en evidencia</p>
+</div>
+
+<div class="days" id="dayTabs">
+  <button class="day-btn active" data-day="lun"><span class="dletter">L</span>TORSO</button>
+  <button class="day-btn" data-day="mar"><span class="dletter">M</span>PIERNA</button>
+  <button class="day-btn" data-day="mie"><span class="dletter">X</span>ACTIVO</button>
+  <button class="day-btn" data-day="jue"><span class="dletter">J</span>PUSH</button>
+  <button class="day-btn" data-day="vie"><span class="dletter">V</span>PULL</button>
+  <button class="day-btn" data-day="sab"><span class="dletter">S</span>LEGS</button>
+  <button class="day-btn" data-day="dom"><span class="dletter">D</span>RESTO</button>
+</div>
+
+<div class="content">
+
+<!-- LUNES TORSO -->
+<div class="day-panel active" id="panel-lun">
+  <div class="day-tag">
+    <div class="day-tag-inner" style="background:#EEEDFE;border:0.5px solid #AFA9EC">
+      <i class="ti ti-body-scan" style="font-size:22px;color:#534AB7" aria-hidden="true"></i>
+      <div>
+        <div class="day-tag-title" style="color:#3C3489">Lunes — Torso Completo</div>
+        <div class="day-tag-sub" style="color:#534AB7">Pecho · Espalda · Hombros · Bíceps · Tríceps · Abdomen</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-flame" style="color:#D85A30" aria-hidden="true"></i><span class="sec-title">Calentamiento — 10 min</span></div>
+    <div class="warm-card">
+      <div class="warm-item">5 min remo ergómetro o bici a baja intensidad (activa cuerpo entero)</div>
+      <div class="warm-item">Band pull-aparts: 3×15 — activa manguito rotador y posterior</div>
+      <div class="warm-item">Face pulls con banda ligera: 2×15 — prepara hombro posterior</div>
+      <div class="warm-item">Rotaciones de hombro hacia adelante y atrás: 20 reps</div>
+      <div class="warm-item">Push-ups con pausa 2s al pecho: 2×8 — activa pectoral sin fatigar</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-barbell" aria-hidden="true"></i><span class="sec-title">Ejercicios principales</span></div>
+
+    <div class="ex-card">
+      <div class="ex-num">01</div>
+      <div class="ex-name">Press de banca con barra</div>
+      <div class="ex-muscle">Pecho medio · Base de fuerza</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>5–7</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5</strong></span>
+        <span class="stat-pill">⏱ <strong>3 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Agarre ligeramente más ancho que hombros. Barra toca la parte inferior del pecho. Empuje máximo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">02</div>
+      <div class="ex-name">Press inclinado mancuernas 30–45°</div>
+      <div class="ex-muscle">Pecho clavicular superior</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">No superes los 45° — a mayor ángulo, mayor deltoides y menor pecho. Rango completo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">03</div>
+      <div class="ex-name">Cable crossover bajo → alto (Fly)</div>
+      <div class="ex-muscle">Pecho inferior / esternal</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>12–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Cable por abajo. Cruza las manos al frente y arriba. Mayor tensión en estiramiento vs mancuerna.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">04</div>
+      <div class="ex-name">Press militar con barra de pie</div>
+      <div class="ex-muscle">Deltoides anterior + medial · Hombro</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>6–8</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">De pie activa más core y trapecios. Barra pasa frente a la cara, no por atrás del cuello.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">05</div>
+      <div class="ex-name">Elevaciones laterales en cable unilateral</div>
+      <div class="ex-muscle">Deltoides medial · Mayor activación que mancuerna</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Cable opuesto al lado que trabajas. Curva de resistencia constante a diferencia de la mancuerna.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">06</div>
+      <div class="ex-name">Reverse pec deck / Pájaros en cable</div>
+      <div class="ex-muscle">Deltoides posterior · Salud del manguito rotador</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Músculo frecuentemente olvidado. Fundamental para equilibrio y postura. No usar momentum.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">07</div>
+      <div class="ex-name">Jalón en polea agarre neutro cerrado</div>
+      <div class="ex-muscle">Dorsal ancho · Espalda superior</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Agarre neutro maximiza activación del dorsal. Tira hacia el pecho, no al cuello. Pausa en contracción.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">08</div>
+      <div class="ex-name">Remo en cable sentado con V-bar</div>
+      <div class="ex-muscle">Dorsal · Romboides · Trapecio medio</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Estira la espalda al frente completamente antes de jalar. Codos pegados al cuerpo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">09</div>
+      <div class="ex-name">Curl concentrado con mancuerna</div>
+      <div class="ex-muscle">Bíceps braquial · Pico del bíceps</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Codo apoyado en muslo. Supina la muñeca en la subida. Mayor activación EMG del bíceps largo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">10</div>
+      <div class="ex-name">Extensión de tríceps en polea con barra recta</div>
+      <div class="ex-muscle">Tríceps · Cabeza medial y lateral</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>12–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Codos fijos a los costados. Bloqueo completo abajo. Contrae fuerte en extensión.</div>
+    </div>
+
+    <div class="divider-label">Abdomen al final — 15 min</div>
+
+    <div class="ab-grid">
+      <div class="ab-card"><div class="ab-name">Rueda abdominal (rollout)</div><div class="ab-detail">4×8–10 · Core total</div></div>
+      <div class="ab-card"><div class="ab-name">Elevación de piernas en barra</div><div class="ab-detail">3×12–15 · Recto inferior</div></div>
+      <div class="ab-card"><div class="ab-name">Plancha frontal con pausa</div><div class="ab-detail">3×45–60s · Estabilidad</div></div>
+      <div class="ab-card"><div class="ab-name">Hipopresivos</div><div class="ab-detail">4×20–30s · Piso pélvico + transverso</div></div>
+    </div>
+  </div>
+  <div class="rpe-legend">
+    <span class="rpe-item"><strong>RPE 7:</strong> 3 reps en reserva</span>
+    <span class="rpe-item"> · </span>
+    <span class="rpe-item"><strong>RPE 8:</strong> 2 en reserva</span>
+    <span class="rpe-item"> · </span>
+    <span class="rpe-item"><strong>RPE 9:</strong> 1 en reserva</span>
+  </div>
+</div>
+
+<!-- MARTES PIERNA -->
+<div class="day-panel" id="panel-mar">
+  <div class="day-tag">
+    <div class="day-tag-inner" style="background:#E1F5EE;border:0.5px solid #5DCAA5">
+      <i class="ti ti-run" style="font-size:22px;color:#0F6E56" aria-hidden="true"></i>
+      <div>
+        <div class="day-tag-title" style="color:#085041">Martes — Pierna</div>
+        <div class="day-tag-sub" style="color:#0F6E56">Cuádriceps · Femoral · Glúteos · Aductores · Gemelos</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-flame" style="color:#D85A30" aria-hidden="true"></i><span class="sec-title">Calentamiento — 12 min</span></div>
+    <div class="warm-card">
+      <div class="warm-item">6–8 min bici estática a intensidad moderada-baja</div>
+      <div class="warm-item">Hip circles: 10 rotaciones por lado — movilidad de cadera</div>
+      <div class="warm-item">Sentadilla goblet con kettlebell y pausa abajo: 2×10</div>
+      <div class="warm-item">Zancadas laterales con peso corporal: 2×10 por lado</div>
+      <div class="warm-item">Puente de glúteo en el suelo con pausa: 2×15 — activa glúteos</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-barbell" aria-hidden="true"></i><span class="sec-title">Ejercicios principales</span></div>
+
+    <div class="ex-card">
+      <div class="ex-num">01</div>
+      <div class="ex-name">Sentadilla con barra trasera (Back Squat)</div>
+      <div class="ex-muscle">Cuádriceps · Glúteos · Rey de los ejercicios de pierna</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>5</strong> series</span>
+        <span class="stat-pill"><strong>4–6</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5–9</strong></span>
+        <span class="stat-pill">⏱ <strong>3.5–4 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Profundidad mínima paralela. Barra posición baja (low bar) para mayor carga. Rodillas siguen los pies.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">02</div>
+      <div class="ex-name">Hack Squat en máquina</div>
+      <div class="ex-muscle">Cuádriceps · Mayor aislamiento que sentadilla libre</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pies juntos o al frente = más cuádriceps. Rango completo de movimiento. Pausa 1s abajo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">03</div>
+      <div class="ex-name">Prensa 45° con pie alto en la plataforma</div>
+      <div class="ex-muscle">Glúteo mayor · Femoral · Énfasis posterior de pierna</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pies arriba en la plataforma = cambia énfasis al posterior. Controla el negativo (3 segundos).</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">04</div>
+      <div class="ex-name">Bulgarian Split Squat</div>
+      <div class="ex-muscle">Cuádriceps · Glúteo · Equilibrio y unilateral</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>10–12 / pierna</strong></span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pie trasero en banco. Torso recto = más cuádriceps. Torso inclinado = más glúteo. Mancuernas o barra.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">05</div>
+      <div class="ex-name">Romanian Deadlift (RDL) con barra</div>
+      <div class="ex-muscle">Femoral · Glúteo inferior · El mejor ejercicio de cadena posterior</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Rodillas semiflexionadas. Empuja las caderas atrás. Siente el estiramiento del femoral. Espalda recta siempre.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">06</div>
+      <div class="ex-name">Curl femoral acostado en máquina</div>
+      <div class="ex-muscle">Femoral aislado · Flexión de rodilla</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Contrae el glúteo durante el movimiento. Pausa 1s en contracción. Negativo de 3s.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">07</div>
+      <div class="ex-name">Aductor en máquina</div>
+      <div class="ex-muscle">Aductores · Músculos internos del muslo</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Rango completo de movimiento. Estiramiento amplio al abrir. Cierre lento y controlado.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">08</div>
+      <div class="ex-name">Hip Thrust con barra</div>
+      <div class="ex-muscle">Glúteo mayor · Mayor activación EMG de todos los ejercicios de glúteo</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pausa 2s arriba con contracción máxima del glúteo. Barbilla al pecho. Barra con pad acolchado.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">09</div>
+      <div class="ex-name">Elevación de talones de pie en máquina</div>
+      <div class="ex-muscle">Gastrocnemio · Gemelos</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>5</strong> series</span>
+        <span class="stat-pill"><strong>10–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>60–90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pausa 2s en la extensión máxima. Baja lento hasta estiramiento completo. Gemelos responden bien a alto volumen.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">10</div>
+      <div class="ex-name">Elevación de talones sentado en máquina</div>
+      <div class="ex-muscle">Sóleo · Parte interna del gemelo</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">La rodilla flexionada pone el sóleo como músculo dominante. Imprescindible para gemelos completos.</div>
+    </div>
+
+    <div class="divider-label">Abdomen al final — 12 min</div>
+    <div class="ab-grid">
+      <div class="ab-card"><div class="ab-name">Dragon flag negativo</div><div class="ab-detail">3×5 · Core total avanzado</div></div>
+      <div class="ab-card"><div class="ab-name">Crunch en cable con cuerda</div><div class="ab-detail">4×15–20 · Recto abdominal</div></div>
+      <div class="ab-card"><div class="ab-name">Hollow body hold</div><div class="ab-detail">3×30s · Estabilidad lumbar</div></div>
+      <div class="ab-card"><div class="ab-name">Hipopresivos</div><div class="ab-detail">3×30s · Piso pélvico</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MIERCOLES DESCANSO ACTIVO -->
+<div class="day-panel" id="panel-mie">
+  <div class="day-tag">
+    <div class="day-tag-inner" style="background:#F1EFE8;border:0.5px solid #B4B2A9">
+      <i class="ti ti-heart-rate-monitor" style="font-size:22px;color:#5F5E5A" aria-hidden="true"></i>
+      <div>
+        <div class="day-tag-title" style="color:#2C2C2A">Miércoles — Descanso Activo</div>
+        <div class="day-tag-sub" style="color:#5F5E5A">Cardio en ayunas · Movilidad · Abdomen en casa</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="tip-box">
+      <p><strong>¿Por qué descanso activo?</strong> El SNC (sistema nervioso central) necesita recuperarse del volumen pesado de lunes y martes. Este día NO vas al gym. Recuperas sin perder la quema de grasa.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-sunrise" style="color:#BA7517" aria-hidden="true"></i><span class="sec-title">Mañana — Cardio en ayunas</span></div>
+    <div class="cardio-card" style="background:#FAEEDA;border-color:#FAC775">
+      <div class="cardio-title" style="color:#633806">Zona 2 · LISS · 35–45 minutos</div>
+      <div class="cardio-detail" style="color:#854F0B">Con el glucógeno bajo de una noche de ayuno, tu cuerpo prefiere usar grasa como combustible. Mantén 60–70% de tu FCmáx — puedes hablar con alguien pero te sientes ligeramente agitado.</div>
+    </div>
+  </div>
+
+  <div class="rest-block">
+    <div class="rest-item">
+      <i class="ti ti-bike" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Opción A — Bicicleta estática</div>
+        <div class="rest-desc">60–65% FCmáx, resistencia baja-media constante</div>
+      </div>
+      <div class="rest-time">35–45 min</div>
+    </div>
+    <div class="rest-item">
+      <i class="ti ti-walk" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Opción B — Caminata inclinada</div>
+        <div class="rest-desc">5–7% inclinación, 5–6 km/h, café negro antes</div>
+      </div>
+      <div class="rest-time">40 min</div>
+    </div>
+    <div class="rest-item">
+      <i class="ti ti-swimming" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Opción C — Natación relajada</div>
+        <div class="rest-desc">Activa recuperación muscular sin impacto articular</div>
+      </div>
+      <div class="rest-time">30–35 min</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-stretching" aria-hidden="true"></i><span class="sec-title">Post-cardio — Movilidad y recuperación</span></div>
+    <div class="warm-card">
+      <div class="warm-item">Stretching estático: pecho, cuádriceps, femoral, cadera — 20 min</div>
+      <div class="warm-item">Foam rolling en zonas de tensión: espalda baja, IT band, glúteos — 15 min</div>
+      <div class="warm-item">Respiración diafragmática profunda: 5 min para bajar cortisol</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-home" aria-hidden="true"></i><span class="sec-title">Noche en casa — Abdomen completo + Hipopresivos</span></div>
+
+    <div class="ex-card">
+      <div class="ex-name">Plancha frontal progresiva</div>
+      <div class="ex-muscle">Transverso abdominal · Estabilizadores lumbares</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>45–60s</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Caderas alineadas. No dejes que bajen la cadera ni las levantes. Aprieta glúteos y abdomen.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-name">Plancha lateral</div>
+      <div class="ex-muscle">Oblicuos · Cuadrado lumbar</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>30–45s / lado</strong></span>
+        <span class="stat-pill">⏱ <strong>45s</strong> descanso</span>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-name">Hollow body hold</div>
+      <div class="ex-muscle">Recto abdominal · Core anterior · Base de gimnasia</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>30s</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Espalda baja PEGADA al suelo. Brazos atrás y piernas extendidas. Si no puedes, dobla rodillas.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-name">Bird Dog</div>
+      <div class="ex-muscle">Estabilidad lumbar · Glúteo medio · Coordinación</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>10 / lado</strong></span>
+        <span class="stat-pill">⏱ <strong>45s</strong> descanso</span>
+      </div>
+    </div>
+
+    <div class="divider-label">Hipopresivos — técnica fundamental</div>
+    <div class="cardio-card" style="background:var(--color-background-info);border-color:var(--color-border-info)">
+      <div class="cardio-title" style="color:var(--color-text-info)">Hipopresivos — 5 series × 20–30s</div>
+      <div class="cardio-detail" style="color:var(--color-text-info)">1. De pie o sentado, espalda recta. 2. Exhala TODO el aire. 3. Simula que inhalas sin inhalar (apnea). 4. El abdomen sube y se mete solo. 5. Mantén 20–30s. 6. Suelta y respira normal. <br>Descanso: 60s entre series.<br>Beneficio: activa el transverso profundo, mejora postura y cintura.</div>
+    </div>
+  </div>
+</div>
+
+<!-- JUEVES PUSH -->
+<div class="day-panel" id="panel-jue">
+  <div class="day-tag">
+    <div class="day-tag-inner" style="background:#FAECE7;border:0.5px solid #F0997B">
+      <i class="ti ti-trending-up" style="font-size:22px;color:#993C1D" aria-hidden="true"></i>
+      <div>
+        <div class="day-tag-title" style="color:#4A1B0C">Jueves — Push (Empuje)</div>
+        <div class="day-tag-sub" style="color:#993C1D">Pecho 3 cabezas · Hombro · Tríceps · HIIT post</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-flame" style="color:#D85A30" aria-hidden="true"></i><span class="sec-title">Calentamiento — 8–10 min</span></div>
+    <div class="warm-card">
+      <div class="warm-item">Band pull-aparts: 3×15 — prepara el manguito rotador</div>
+      <div class="warm-item">Rotación externa con banda unilateral: 2×12 por lado</div>
+      <div class="warm-item">Push-ups con pausa 2s: 2×12 — activa sin fatigar</div>
+      <div class="warm-item">Press mancuerna ligero 30° (50% del peso de trabajo): 1×15 como calentamiento</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-barbell" aria-hidden="true"></i><span class="sec-title">Ejercicios principales</span></div>
+
+    <div class="ex-card">
+      <div class="ex-num">01</div>
+      <div class="ex-name">Press inclinado con barra 30°</div>
+      <div class="ex-muscle">Pecho clavicular · Mayor activación EMG del pecho superior</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>5</strong> series</span>
+        <span class="stat-pill"><strong>4–6</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 9</strong></span>
+        <span class="stat-pill">⏱ <strong>3 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">El ángulo de 30° es el punto óptimo demostrado para activar el pectoral clavicular sin que el deltoides robe el trabajo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">02</div>
+      <div class="ex-name">Press plano con mancuernas (rango aumentado)</div>
+      <div class="ex-muscle">Pecho esternal medio · Mayor estiramiento que barra</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">La mancuerna permite mayor ROM en el estiramiento. Baja hasta que los codos queden por debajo del banco. Más hipertrofia.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">03</div>
+      <div class="ex-name">Fondos en paralelas con lastre (inclinado al frente)</div>
+      <div class="ex-muscle">Pecho inferior · Tríceps · Deltoides anterior</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Inclina el torso hacia adelante para activar más pecho inferior. Con cinturón de lastre o chaleco lastrado.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">04</div>
+      <div class="ex-name">Cable crossover (polea baja → alta)</div>
+      <div class="ex-muscle">Pecho clavicular · Aislamiento total en contracción</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>12–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Polea desde abajo hacia arriba diagonal. Cruza las manos al tope. El cable mantiene tensión en todo el rango.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">05</div>
+      <div class="ex-name">Press Arnold</div>
+      <div class="ex-muscle">Deltoides anterior + medial · Rango de rotación completo</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Empieza con palmas hacia ti (supino), rota al subir terminando en pronación. Activa más fibras del deltoides que el press normal.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">06</div>
+      <div class="ex-name">Elevaciones laterales en cable sentado unilateral</div>
+      <div class="ex-muscle">Deltoides medial · Curva de resistencia constante</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Sentado le quita el ímpetu de la cadera. Cable crea resistencia máxima en la posición de contracción, al contrario de la mancuerna.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">07</div>
+      <div class="ex-name">Reverse pec deck (hombro posterior)</div>
+      <div class="ex-muscle">Deltoides posterior · Equilibrio anterior/posterior del hombro</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Incluido también en día de empuje porque los días de pecho son los que más sobrecargan el anterior del hombro. El posterior necesita compensación.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">08</div>
+      <div class="ex-name">Extensión de tríceps en polea con cuerda</div>
+      <div class="ex-muscle">Tríceps · Cabeza medial y lateral</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>12–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Abre la cuerda al final para mayor contracción. Codos fijos. Peso que permita rango completo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">09</div>
+      <div class="ex-name">Skull Crusher con barra EZ</div>
+      <div class="ex-muscle">Tríceps · Cabeza larga (mayor tamaño del tríceps)</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">La cabeza larga solo se estira con el codo atrás (por encima de la cabeza). El skull crusher es el mejor ejercicio para esto.</div>
+    </div>
+
+    <div class="divider-label">Cardio HIIT post-entrenamiento — 20 min</div>
+    <div class="cardio-card" style="background:#FAECE7;border-color:#F0997B">
+      <div class="cardio-title" style="color:#4A1B0C">HIIT en bicicleta estática — Efecto EPOC</div>
+      <div class="cardio-detail" style="color:#993C1D">3 min calentamiento suave · <strong>10 rondas:</strong> 20s sprint a 90–95% FCmáx + 40s recuperación activa · 3 min enfriamiento. El EPOC (exceso de consumo de oxígeno post-ejercicio) mantiene tu metabolismo elevado 12–24h.</div>
+    </div>
+  </div>
+</div>
+
+<!-- VIERNES PULL -->
+<div class="day-panel" id="panel-vie">
+  <div class="day-tag">
+    <div class="day-tag-inner" style="background:#E6F1FB;border:0.5px solid #85B7EB">
+      <i class="ti ti-arrows-down-up" style="font-size:22px;color:#185FA5" aria-hidden="true"></i>
+      <div>
+        <div class="day-tag-title" style="color:#042C53">Viernes — Pull + Antebrazos</div>
+        <div class="day-tag-sub" style="color:#185FA5">Espalda · Bíceps · Hombro posterior · Antebrazos · Abdomen</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-flame" style="color:#D85A30" aria-hidden="true"></i><span class="sec-title">Calentamiento — 8–10 min</span></div>
+    <div class="warm-card">
+      <div class="warm-item">Face pulls con banda elástica: 3×15 — activa manguito rotador y posterior</div>
+      <div class="warm-item">Rotación externa con banda unilateral: 2×12 por lado</div>
+      <div class="warm-item">Cat-cow: 10 reps — movilidad columna torácica y lumbar</div>
+      <div class="warm-item">Jalones muy ligeros en polea de pie: 2×15 — activa dorsal sin fatiga</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-barbell" aria-hidden="true"></i><span class="sec-title">Ejercicios — Espalda y bíceps</span></div>
+
+    <div class="ex-card">
+      <div class="ex-num">01</div>
+      <div class="ex-name">Dominadas con lastre (agarre prono)</div>
+      <div class="ex-muscle">Dorsal ancho · Romboides · El ejercicio rey de espalda</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>5</strong> series</span>
+        <span class="stat-pill"><strong>4–6</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5</strong></span>
+        <span class="stat-pill">⏱ <strong>3 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Con cinturón de lastre. Agarre a la anchura de los hombros. Baja hasta extensión completa de codos en cada rep.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">02</div>
+      <div class="ex-name">Remo Pendlay con barra</div>
+      <div class="ex-muscle">Espalda superior · Romboides · Fuerza explosiva</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>5–7</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">La barra vuelve al suelo COMPLETAMENTE entre cada rep (no rebota). Torso paralelo al suelo. Jalón explosivo al abdomen.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">03</div>
+      <div class="ex-name">Jalón en polea agarre neutro cerrado</div>
+      <div class="ex-muscle">Dorsal ancho en contracción máxima · Teres mayor</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Agarre neutro = mayor activación dorsal. Inclina el torso 20–30° atrás. Tira al pecho. Pausa 1s en contracción.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">04</div>
+      <div class="ex-name">Remo en cable unilateral con soporte</div>
+      <div class="ex-muscle">Dorsal unilateral · Mayor rango de movimiento</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>10–12 / lado</strong></span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Apoyas la mano libre en un soporte. Mayor estiramiento del dorsal al inicio. Codo pasa del cuerpo hacia atrás al jalar.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">05</div>
+      <div class="ex-name">Pullover en polea alta</div>
+      <div class="ex-muscle">Dorsal en estiramiento · Serrato · Pecho inferior</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>12–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">De pie, de espaldas a la polea. Brazos extendidos, jala hacia abajo y adelante. El dorsal trabaja en estiramiento total.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">06</div>
+      <div class="ex-name">Face pulls con cuerda</div>
+      <div class="ex-muscle">Deltoides posterior · Manguito rotador · Salud del hombro</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Polea a la altura de la cara. Jala hacia tu cara separando los codos. Los pulgares apuntan atrás al final. Fundamental para salud de hombros.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">07</div>
+      <div class="ex-name">Curl con barra EZ (bíceps)</div>
+      <div class="ex-muscle">Bíceps braquial · Supinación completa = máxima activación</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>8–10</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Codos fijos a los costados. Baja completo hasta extensión total (mayor ROM = mayor hipertrofia según evidencia reciente).</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">08</div>
+      <div class="ex-name">Curl martillo en cable</div>
+      <div class="ex-muscle">Braquiorradial · Bíceps largo · Grosor del brazo</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>12–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Agarre neutro (palma hacia adentro). El cable da tensión constante vs mancuerna. Activa braquiorradial que da grosor al brazo.</div>
+    </div>
+
+    <div class="divider-label">Antebrazos — sección especial</div>
+
+    <div class="ex-card">
+      <div class="ex-num">09</div>
+      <div class="ex-name">Curl de muñeca con barra (flexores)</div>
+      <div class="ex-muscle">Flexores del antebrazo · Fuerza de agarre</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Sentado, antebrazos sobre muslos, muñecas fuera del borde. Baja lento y curla. Rango completo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">10</div>
+      <div class="ex-name">Extensión de muñeca con barra</div>
+      <div class="ex-muscle">Extensores del antebrazo · Equilibrio flexor/extensor</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Mismo setup pero palmas hacia abajo. Imprescindible para prevenir lesiones y lograr antebrazos desarrollados en ambas partes.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">11</div>
+      <div class="ex-name">Farmer's walk / Dead hang</div>
+      <div class="ex-muscle">Grip · Antebrazos funcionales · Fuerza de agarre total</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>30–40s</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Farmer's walk: carga pesada en cada mano y camina. Dead hang: cuélgate de la barra sin moverse. Ambos son brutalmente efectivos para grip.</div>
+    </div>
+
+    <div class="divider-label">Abdomen al final — 15 min</div>
+    <div class="ab-grid">
+      <div class="ab-card"><div class="ab-name">Rueda abdominal</div><div class="ab-detail">4×10–12 · Core total</div></div>
+      <div class="ab-card"><div class="ab-name">Twist ruso con peso</div><div class="ab-detail">3×15/lado · Oblicuos</div></div>
+      <div class="ab-card"><div class="ab-name">Leg raise en barra</div><div class="ab-detail">3×12 · Recto inferior</div></div>
+      <div class="ab-card"><div class="ab-name">Hipopresivos</div><div class="ab-detail">4×30s · Transverso</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SABADO LEGS -->
+<div class="day-panel" id="panel-sab">
+  <div class="day-tag">
+    <div class="day-tag-inner" style="background:#EAF3DE;border:0.5px solid #97C459">
+      <i class="ti ti-run" style="font-size:22px;color:#3B6D11" aria-hidden="true"></i>
+      <div>
+        <div class="day-tag-title" style="color:#173404">Sábado — Legs (énfasis diferente)</div>
+        <div class="day-tag-sub" style="color:#3B6D11">Cuádriceps · Aductores · Femoral · Glúteo medio · LISS post</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="tip-box" style="background:var(--color-background-success);border-color:var(--color-border-success)">
+      <p style="color:var(--color-text-success)">Diferente al martes: énfasis en cuádriceps anterior + aductores con Copenhagen + Sentadilla Frontal. Aunque es la misma región, el estímulo muscular es distinto y complementario.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-flame" style="color:#D85A30" aria-hidden="true"></i><span class="sec-title">Calentamiento — 10 min</span></div>
+    <div class="warm-card">
+      <div class="warm-item">5–8 min bici estática a baja-media intensidad</div>
+      <div class="warm-item">Monster walks con banda de glúteos: 2×15 — activa abductores y glúteo medio</div>
+      <div class="warm-item">Sentadilla sumo con pausa abajo: 2×10 — abre cadera e ingle</div>
+      <div class="warm-item">Good morning con barra vacía: 2×10 — movilidad femoral y lumbar</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-hdr"><i class="ti ti-barbell" aria-hidden="true"></i><span class="sec-title">Ejercicios principales</span></div>
+
+    <div class="ex-card">
+      <div class="ex-num">01</div>
+      <div class="ex-name">Sentadilla Frontal (Front Squat)</div>
+      <div class="ex-muscle">Cuádriceps · Torso erecto · Mayor activación anterior vs martes</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>5–6</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8.5</strong></span>
+        <span class="stat-pill">⏱ <strong>3.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Barra descansando en los deltoides frontales. Codos arriba. Torso más vertical que la sentadilla trasera = más cuádriceps y menos espalda baja.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">02</div>
+      <div class="ex-name">Prensa 45° pies juntos y abajo</div>
+      <div class="ex-muscle">Cuádriceps vasto lateral · Énfasis externo del muslo</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pies juntos en la mitad inferior de la plataforma. Mayor rango de movimiento en la rodilla. Más cuádriceps lateral.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">03</div>
+      <div class="ex-name">Extensión de cuádriceps con pausa 2s</div>
+      <div class="ex-muscle">Cuádriceps aislado · Mayor tiempo bajo tensión</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>12–15</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pausa de 2 segundos en la extensión máxima. Esta técnica aumenta significativamente la activación del VMO (vasto medial oblicuo).</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">04</div>
+      <div class="ex-name">Good Morning con barra</div>
+      <div class="ex-muscle">Femoral · Glúteo · Erectores espinales · Cadena posterior</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 7</strong></span>
+        <span class="stat-pill">⏱ <strong>2.5 min</strong> descanso</span>
+      </div>
+      <div class="ex-note">Barra en la espalda baja. Rodillas semiflexionadas. Bisagra de cadera hacia adelante hasta torso paralelo. Espalda RECTA siempre. Peso moderado.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">05</div>
+      <div class="ex-name">Curl femoral sentado en máquina</div>
+      <div class="ex-muscle">Femoral en estiramiento · Evidencia: mayor hipertrofia que acostado</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>10–12</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Sentado = cadera flexionada = femoral más estirado. Estudios de 2022–2024 muestran mayor hipertrofia que la versión acostada por este motivo.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">06</div>
+      <div class="ex-name">Copenhagen Adductor Plank</div>
+      <div class="ex-muscle">Aductores · El ejercicio con mayor evidencia para fuerza de aductores</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>30–40s / lado</strong></span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pie superior en banco, te elevas lateralmente manteniendo el cuerpo alineado. La pierna de abajo puede estar extendida (difícil) o flexionada (más fácil).</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">07</div>
+      <div class="ex-name">Aductor en cable de pie</div>
+      <div class="ex-muscle">Aductores · Mayor ROM que la máquina</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20 / lado</strong></span>
+        <span class="stat-pill"><strong>RPE 7.5</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Cable en tobillo, de pie de lado. Cruza la pierna hacia adelante y a través del cuerpo. Mayor estiramiento que la máquina.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">08</div>
+      <div class="ex-name">Hip Thrust unilateral con mancuerna</div>
+      <div class="ex-muscle">Glúteo medio · Mayor estabilización que el bilateral</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>3</strong> series</span>
+        <span class="stat-pill"><strong>12–15 / lado</strong></span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>90s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Una pierna en el aire. Mancuerna sobre la cadera que trabaja. El glúteo medio (lateral) se activa más que en la versión bilateral.</div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-num">09</div>
+      <div class="ex-name">Elevación de talones en prensa</div>
+      <div class="ex-muscle">Gastrocnemio · Mayor ROM que máquina de pie</div>
+      <div class="ex-stats">
+        <span class="stat-pill"><strong>4</strong> series</span>
+        <span class="stat-pill"><strong>15–20</strong> reps</span>
+        <span class="stat-pill"><strong>RPE 8</strong></span>
+        <span class="stat-pill">⏱ <strong>60s</strong> descanso</span>
+      </div>
+      <div class="ex-note">Pies en borde inferior de la prensa. Rodillas casi extendidas. La prensa te permite mayor peso y rango. Pausa 2s arriba.</div>
+    </div>
+
+    <div class="divider-label">Cardio LISS post-entrenamiento — 20–25 min</div>
+    <div class="cardio-card" style="background:#EAF3DE;border-color:#97C459">
+      <div class="cardio-title" style="color:#173404">Caminata inclinada en cinta</div>
+      <div class="cardio-detail" style="color:#3B6D11">Inclinación 8–10% · 5–6 km/h · 20–25 min. Después de piernas, el LISS quema grasa sin comprometer la síntesis proteica muscular. El HIIT aquí dañaría la recuperación de cuádriceps y femorales.</div>
+    </div>
+  </div>
+</div>
+
+<!-- DOMINGO DESCANSO -->
+<div class="day-panel" id="panel-dom">
+  <div class="day-tag">
+    <div class="day-tag-inner" style="background:#FAEEDA;border:0.5px solid #EF9F27">
+      <i class="ti ti-moon" style="font-size:22px;color:#854F0B" aria-hidden="true"></i>
+      <div>
+        <div class="day-tag-title" style="color:#412402">Domingo — Descanso Completo</div>
+        <div class="day-tag-sub" style="color:#854F0B">Recuperación · Sueño · Nutrición · Crecimiento muscular</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="cardio-card" style="background:#FAEEDA;border-color:#FAC775;margin-bottom:8px">
+      <div class="cardio-title" style="color:#412402">El descanso NO es opcional — es donde creces</div>
+      <div class="cardio-detail" style="color:#854F0B">La síntesis proteica muscular (MPS) ocurre durante el reposo. La hormona de crecimiento se secreta principalmente durante el sueño profundo. Sin descanso adecuado, el cortisol se eleva y bloquea la hipertrofia.</div>
+    </div>
+  </div>
+
+  <div class="rest-block">
+    <div class="rest-item">
+      <i class="ti ti-bed" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Sueño de calidad</div>
+        <div class="rest-desc">7–9 horas. Oscuridad total. Sin pantallas 1h antes</div>
+      </div>
+      <div class="rest-time">Prioridad #1</div>
+    </div>
+    <div class="rest-item">
+      <i class="ti ti-droplet" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Hidratación óptima</div>
+        <div class="rest-desc">3–4 litros de agua. Agrega electrolitos si hubo mucha sudoración</div>
+      </div>
+      <div class="rest-time">Todo el día</div>
+    </div>
+    <div class="rest-item">
+      <i class="ti ti-meat" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Proteína alta (incluso en descanso)</div>
+        <div class="rest-desc">1.8–2.2g por kg de peso corporal. La MPS sigue activa</div>
+      </div>
+      <div class="rest-time">Todo el día</div>
+    </div>
+    <div class="rest-item">
+      <i class="ti ti-walk" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Caminata opcional suave</div>
+        <div class="rest-desc">20–30 min a paso tranquilo. Mejora circulación sin estrés</div>
+      </div>
+      <div class="rest-time">Opcional</div>
+    </div>
+    <div class="rest-item">
+      <i class="ti ti-massage" aria-hidden="true"></i>
+      <div class="rest-info">
+        <div class="rest-label">Foam rolling + stretching</div>
+        <div class="rest-desc">15–20 min en todo el cuerpo. Acelera recuperación activa</div>
+      </div>
+      <div class="rest-time">Noche</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="tip-box">
+      <p>Si sientes que puedes entrenar en domingo sin fatiga acumulada, revisa tu intensidad semanal — deberías estar necesitando este descanso. Si no es así, agrega más volumen o intensidad a los días de entrenamiento.</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+document.getElementById('dayTabs').addEventListener('click', function(e) {
+  const btn = e.target.closest('.day-btn');
+  if (!btn) return;
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + btn.dataset.day).classList.add('active');
+});
+</script>
